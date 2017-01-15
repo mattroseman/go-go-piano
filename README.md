@@ -26,3 +26,6 @@ Difficulties included determining the best method to filter out false positive a
 ## Future ideas
 This technology could be further improved to analyze what fingers press what keys, and determine how good / bad hand posture is.  In addition, processing time could be decreased by only checking keys that are near the player's hands, rather than the entire keyboard every frame.
 
+## References
+Algorithm was based off of the following research paper
+[https://stacks.stanford.edu/file/druid:wz235rg6061/Suteparuk.pdf](https://stacks.stanford.edu/file/druid:wz235rg6061/Suteparuk.pdf)
