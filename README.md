@@ -28,4 +28,4 @@ This technology could be further improved to analyze what fingers press what key
 
 ## References
 Algorithm was based off of the following research paper
-[https://stacks.stanford.edu/file/druid:wz235rg6061/Suteparuk.pdf](https://stacks.stanford.edu/file/druid:wz235rg6061/Suteparuk.pdf)
+[https://stacks.stanford.edu/file/druid:bf950qp8995/Suteparuk.pdf](https://stacks.stanford.edu/file/druid:bf950qp8995/Suteparuk.pdf)
