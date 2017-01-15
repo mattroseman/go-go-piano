@@ -1,4 +1,4 @@
-function [ whiteKeys,numWhiteKeys ] = findWhiteKeys(blackKeys,numBlackKeys,lowerBound)
+function [ whiteKeys,numWhiteKeys,middle_csharp,middle_c ] = findWhiteKeys(blackKeys,numBlackKeys,lowerBound)
 
 blackR = cell(1,numBlackKeys);
 blackC = cell(1,numBlackKeys);

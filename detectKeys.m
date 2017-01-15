@@ -16,7 +16,7 @@ end
 
 % White keys
 
-[whiteKeys,numWhiteKeys] = ...
+[whiteKeys,numWhiteKeys,middle_csharp, middle_c] = ...
     findWhiteKeys(blackKeys,numBlackKeys,size(blackKeys,1));
 
 % Erode black keys to create buffer between white and black
