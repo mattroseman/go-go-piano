@@ -6,13 +6,27 @@ middle_c = 72
 middle_csharp = middle_c + 1 
 track    = 0
 channel  = 0
-time     = 0.00   # In beats
+time     = 0.50   # In beats
 time_increment = 0.25
 duration = 0.25   # In beats
 tempo    = 120  # In BPM
 volume   = 100 # 0-127, as per the MIDI standard
 
-framerate = 30
+framerate = 10
+
+
+quarter_frames = framerate/(tempo/60)
+sixteenth_frames = round(quarter_frames / 4)
+eighth_frames = sixteenth_frames * 2
+quarter_frames = eighth_frames * 2
+half_frames = quarter_frames * 2
+whole_frames = half_frames * 2
+
+print(quarter_frames)
+print(sixteenth_frames)
+print(eighth_frames)
+print(half_frames)
+
 
 white_midi_deltas = [2, 2, 1, 2, 2, 2, 1]
 black_midi_deltas = [2, 3, 2, 2, 3]
@@ -83,7 +97,7 @@ else:
 
 #####################################
 ##Convert Data to Midi Array
-midi_array = np.empty((0,44), int)
+midi_array = None
 ##remove first two rows
 piano_data = np.delete(piano_data, 0, 0)
 piano_data = np.delete(piano_data, 0, 0)
@@ -106,11 +120,10 @@ while len(piano_data) > 0:
             curr_white_lowest = True
         curr_note += 1
     current_frame.append(black_keys[0])
-    print(current_frame)
-    print("LENGTH OF FRAME " + str(len(current_frame)))
-    print(midi_array.ndim)
     current_frame = np.array(current_frame)
-    print(current_frame.ndim)
+    if midi_array is None:
+        midi_array = np.empty((0,len(current_frame)), int)
+
     midi_array = np.vstack([midi_array, current_frame])
     piano_data = np.delete(piano_data,0, 0)
     piano_data = np.delete(piano_data,0, 0)
@@ -121,16 +134,47 @@ MyMIDI = MIDIFile(1) # One track, defaults to format 1 (tempo track
                      # automatically created)
 MyMIDI.addTempo(track,time, tempo)
 
-for frame in midi_array:
+frame = 0
+note = 0
+
+
+while frame < len(midi_array):
+    #print("FRAME: " + str(frame))
     curr_note = lowest_note
-    for note in frame:
-        if int(note) == 1:
-            print("Adding Note " + str(curr_note))
+    while note < len(midi_array[frame]):
+        length = 0
+        ahead = 0
+        while frame + ahead < len(midi_array) and int(midi_array[frame + ahead,note]) == 1 :
+            midi_array[frame + ahead, note] = 0
+            #print("NOTE " + str(curr_note) + " AT FRAME " + str(frame + ahead))
+            length += 1
+            ahead += 1
+        if length >= sixteenth_frames:
+            #duration = 0.25
+            if length >= eighth_frames:
+                #duration = 0.5
+                if length >= quarter_frames:
+                    duration = 1
+                    if length >= half_frames:
+                       duration = 2
+                       if length >= quarter_frames + half_frames:
+                           duration = 3
+                           if length >= whole_frames:
+                               duration = 4
+
+            print("Adding Note " + str(curr_note) + " of len " + str(duration) + " at beat " + str(time))
             MyMIDI.addNote(track, channel, curr_note, time, duration, volume)
+        elif length > 0:
+            print("NOTE NOT LONG ENOUGH LENGTH IS " + str(length))
         curr_note += 1
-    time += 0.25
+        note += 1
+    note = 0
+    frame += 1
+    if frame % sixteenth_frames == 0:
+        time += .25
 
 
 with open("output.mid", "wb") as output_file:
     MyMIDI.writeFile(output_file)
 
+print(quarter_frames)
