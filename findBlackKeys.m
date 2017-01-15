@@ -5,7 +5,7 @@ crop = img(top:bottom,:);
 [imgLabels,numLabels] = bwlabel(crop,4);
 for i = 1:numLabels
     ind = find(imgLabels == i);
-    if numel(ind) < 50
+    if numel(ind) < 1000
         crop(ind) = 0;
     end
 end

@@ -6,11 +6,11 @@ end
 
 % Load training images
 
-numTraining = 5;
+numTraining = 4;
 imgTrain = cell(1,numTraining);
 imgTrainMask = cell(1,numTraining);
 for i = 1:numTraining
-    imgTrain{i} = double(imread(['images/trainMAP/img' num2str(i) '.jpg']));
+    imgTrain{i} = double(imread(['images/trainMAP/img' num2str(i) '.png']));
     imgTrainMask{i} = imread(['images/trainMAP/mask' num2str(i) '.png']);
     imgTrainMask{i} = imgTrainMask{i} > 0;
 end

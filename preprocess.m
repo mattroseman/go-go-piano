@@ -1,7 +1,7 @@
 %% Load video
 
-filepath = 'images/CallMeMaybe_Clip/';
-videoFrames = dir([filepath '*.jpg']);
+filepath = 'videos/lamb2/';
+videoFrames = dir([filepath '*.png']);
 numFrames = length(videoFrames);
 
 framesRGB = cell(1,numFrames);
@@ -15,7 +15,7 @@ framesMask = cell(1,numFrames);
 
 %% Use first frame to find the rotation angle and crop the piano
 
-initialFrame = im2double(imread('images/CallMeMaybe.jpg'));
+initialFrame = im2double(imread('images/lamb_blank2.png'));
 initialFrameGray = rgb2gray(initialFrame);
 grayThresh = graythresh(initialFrameGray);
 initialFrameBin = im2bw(initialFrameGray,grayThresh);

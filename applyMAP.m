@@ -39,7 +39,7 @@ for j = 1:numLabels
 end
 
 % Dilate
-SE = ones(5);
+SE = strel('sphere', 25);
 imgClassifyPost = imdilate(imgClassifyPost,SE);
 
 mask = imgClassifyPost;
